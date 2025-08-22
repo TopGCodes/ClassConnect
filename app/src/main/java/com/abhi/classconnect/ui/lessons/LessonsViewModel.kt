@@ -15,9 +15,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class LessonsViewModel(
-  private val lessonsRepository: LessonsRepository,
-  private val syncStatusRepository: SyncStatusRepository,
-   private val syncEngine: SyncEngine
+    private val lessonsRepository: LessonsRepository,
+    private val syncStatusRepository: SyncStatusRepository,
+    private val syncEngine: SyncEngine
 ) : ViewModel() {
 
 
@@ -27,17 +27,17 @@ class LessonsViewModel(
         }
     }
 
-     val uiState: StateFlow<UiState> = combine(
+    val uiState: StateFlow<UiState> = combine(
+        syncStatusRepository.observeSyncStatus(),
         lessonsRepository.observeAllLessons(),
         lessonsRepository.getNetworkStatus(),
-         syncStatusRepository.observeSyncStatus()
-    ) { lessons, networkStatus,syncStatusCompleted ->
+    ) { syncStatusCompleted, lessons, networkStatus ->
         if (lessons.isNotEmpty()) {
             UiState.Success(
                 state = ScreenState(
                     lessons = lessons,
-                    isOnline = if(networkStatus) Online else Offline,
-                    syncInfo = if(syncStatusCompleted) SYNCED else PENDING
+                    isOnline = if (networkStatus) Online else Offline,
+                    syncInfo = if (syncStatusCompleted) SYNCED else PENDING
                 )
             )
         } else {

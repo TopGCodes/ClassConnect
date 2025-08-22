@@ -10,8 +10,8 @@ import com.abhi.classconnect.data.mappers.toStudentUi
 import com.abhi.classconnect.data.remote.FakeRemoteDataSource
 import com.abhi.classconnect.data.repository.AttendanceRepository
 import com.abhi.classconnect.sync.InternetConnectivityObserver
-import com.abhi.classconnect.sync.SYNC_STATUS
 import com.abhi.classconnect.ui.entities.StudentRecordInfo
+import com.abhi.classconnect.utils.SYNC_STATUS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

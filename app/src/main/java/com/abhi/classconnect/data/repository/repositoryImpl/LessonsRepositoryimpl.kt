@@ -1,9 +1,10 @@
 package com.abhi.classconnect.data.repository.repositoryImpl
 
+import android.util.Log
 import com.abhi.classconnect.data.dto.lessons.LessonDto
 import com.abhi.classconnect.data.local.ClassroomDAO
 import com.abhi.classconnect.data.local.entities.Lesson
-import com.abhi.classconnect.data.local.sharedPref.SharedPrefLocalDataSourceImpl
+import com.abhi.classconnect.data.local.sharedPref.SharedPrefLocalDataSource
 import com.abhi.classconnect.data.mappers.toLessonDto
 import com.abhi.classconnect.data.mappers.toUiLesson
 import com.abhi.classconnect.data.remote.FakeRemoteDataSource
@@ -17,7 +18,7 @@ class LessonsRepositoryImpl(
     private val api: FakeRemoteDataSource,
     private val dao: ClassroomDAO,
     private val internetConnectivityObserver: InternetConnectivityObserver,
-    private val sharedPrefLocalDataSource: SharedPrefLocalDataSourceImpl
+    private val sharedPrefLocalDataSource: SharedPrefLocalDataSource
 ) : LessonsRepository {
 
     private val isConnected = internetConnectivityObserver.isConnected.value
@@ -36,6 +37,7 @@ class LessonsRepositoryImpl(
     }
 
     override suspend fun saveLessonInLocal(lesson: Lesson) {
+        Log.d("lesson", "lessons created - $lesson")
         dao.saveLessonInLocal(lesson)
         if (isConnected) uploadLessonToServer(lesson.toLessonDto())
     }

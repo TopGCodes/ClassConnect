@@ -11,6 +11,7 @@ class SharedPrefLocalDataSourceImpl(
 ) : SharedPrefLocalDataSource {
 
     override fun observeSyncStatus(): Flow<Boolean> = callbackFlow {
+        trySend(false)
         val listener =
             SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
                 if (key.toString() == SYNC_STATUS) {
