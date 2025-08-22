@@ -1,6 +1,9 @@
 package com.abhi.classconnect.ui.lessons
 
+import android.R.attr.fontFamily
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,6 +36,7 @@ import com.abhi.classconnect.ui.common.ShowMessage
 import com.abhi.classconnect.ui.entities.LessonInfo
 import com.abhi.classconnect.utils.SYNC
 import com.abhi.classconnect.utils.extensions.toDisplayText
+import com.abhi.classconnect.utils.toDate
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -86,68 +90,65 @@ internal fun LessonsScreenContent(lessons: List<LessonInfo>, innerpadding: Paddi
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 internal fun LessonCard(
     lesson: LessonInfo
 ) {
-    Card(
-        modifier = Modifier
-            .padding(all = 15.dp)
-            .shadow(elevation = 5.dp, shape = RoundedCornerShape(corner = CornerSize(7.dp)))
-            .fillMaxWidth()
-            .background(Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp), // shadow depth
-        shape = RoundedCornerShape(16.dp), // rounded corners
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White // background color
-        )
-    ) {
-        Column(
-            Modifier
+    with(lesson) {
+
+        Card(
+            modifier = Modifier
+                .padding(all = 15.dp)
+                .shadow(elevation = 5.dp, shape = RoundedCornerShape(corner = CornerSize(7.dp)))
                 .fillMaxWidth()
-                .padding(all = 10.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = lesson.title.toDisplayText(),
-                    fontFamily = FontFamily.Monospace,
-                )
-                Text(
-                    text = "12-23-2000",
-                    fontFamily = FontFamily.SansSerif,
-                )
-            }
-
-            Text(
-                modifier = Modifier.padding(top = 8.dp),
-                text = lesson.content,
-                fontFamily = FontFamily.Serif,
+                .background(Color.White),
+            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp), // shadow depth
+            shape = RoundedCornerShape(16.dp), // rounded corners
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White // background color
             )
-
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(all = 10.dp)
             ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = title.toDisplayText(),
+                        fontFamily = FontFamily.Monospace,
+                    )
+                    Text(
+                        text = toDate(lastModified),
+                        fontFamily = FontFamily.SansSerif,
+                    )
+                }
+
                 Text(
-                    text = SYNC.plus(" : ").plus(lesson.syncStatus),
-                    fontFamily = FontFamily.SansSerif,
+                    modifier = Modifier.padding(top = 8.dp),
+                    text = content,
+                    fontFamily = FontFamily.Serif,
                 )
-                Text(
-                    text = lesson.modifiedBy,
-                    fontFamily = FontFamily.SansSerif,
-                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = SYNC.plus(" : ").plus(syncStatus),
+                        fontFamily = FontFamily.SansSerif,
+                    )
+                    Text(
+                        text = modifiedBy,
+                        fontFamily = FontFamily.SansSerif,
+                    )
+                }
             }
-
-
-
-
-
         }
-
-
     }
 
 }
