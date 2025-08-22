@@ -8,7 +8,6 @@ import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import java.time.Instant
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -30,15 +29,6 @@ fun createImageUri(context: Context): Uri {
 
 @OptIn(ExperimentalTime::class)
  fun  currentTimeInMillis() = Clock.System.now().toEpochMilliseconds()
-
-
-@RequiresApi(Build.VERSION_CODES.O)
-fun getTimeStamp(millis : Long = System.currentTimeMillis()): String {
-    val selectedLocalDate = Instant.ofEpochMilli(millis)
-        .atZone(ZoneId.systemDefault()).toLocalDate() // Example : 2025-12-10
-    val dateString = selectedLocalDate.format(DateTimeFormatter.BASIC_ISO_DATE) // example : 20251210
-    return dateString
-}
 
 
 @RequiresApi(Build.VERSION_CODES.O)
